@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+:root {
+  --bg-color: #000000;
+  --card-bg: rgba(23, 23, 23, 0.8);
+  --text-main: #f8fafc;
+}
+
+@layer base {
+  body {
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    min-height: 100vh;
+  }
+}
+
+@utility glass-card {
+  background-color: var(--card-bg);
+  @apply backdrop-blur-2xl border border-white/5 rounded-xl p-6 shadow-2xl;
+}
+
+@layer components {
+  .stat-card {
+    @apply glass-card flex items-center space-x-5 border-l-4 border-l-white;
+  }
+
+  .btn {
+    @apply px-5 py-2.5 rounded-lg font-semibold transition-all duration-300 active:scale-95 disabled:opacity-30 disabled:cursor-not-allowed;
+  }
+
+  .btn-primary {
+    @apply bg-white text-black hover:bg-slate-200 shadow-lg;
+  }
+
+  .btn-secondary {
+    @apply bg-zinc-800 text-white hover:bg-zinc-700 border border-white/10;
+  }
+}
