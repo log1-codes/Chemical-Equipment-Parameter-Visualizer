@@ -83,3 +83,5 @@ python main.py
 - **PDF Export**: Generate professional equipment reports with one click.
 - **History Management**: Automatically stores and displays the last 5 successful uploads.
 - **Secure Communication**: Integration with Django Basic Authentication.
+
+Watch Demo Video Here: https://drive.google.com/file/d/1efOQl5f2KPzdVyRsjv4q1onRYMlY3hLx/
