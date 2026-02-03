@@ -9,7 +9,8 @@ from PyQt5.QtCore import Qt, QSize
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-API_BASE = "http://localhost:8000/api"
+load_dotenv()
+API_BASE = os.getenv("API_BASE", "http://localhost:8000/api")
 AUTH = ("admin", "admin123")
 
 class ChartCanvas(FigureCanvas):

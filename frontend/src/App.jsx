@@ -31,7 +31,8 @@ ChartJS.register(
   LineElement
 );
 
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000/api';
+console.log(API_BASE);
 const AUTH_HEADER = {
   headers: {
     'Authorization': 'Basic ' + btoa('admin:admin123')

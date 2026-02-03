@@ -25,7 +25,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-local-dev-key-123')
 
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = [h.strip() for h in os.environ.get('ALLOWED_HOSTS', '*').split(',') if h.strip()]
+if not ALLOWED_HOSTS:
+    ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -130,14 +132,18 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CORS_ALLOW_ALL_ORIGINS = os.environ.get('CORS_ALLOW_ALL', 'True').lower() == 'true'
 
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173').split(',')
+# Split and filter out empty strings
+CORS_ALLOWED_ORIGINS = [h.strip() for h in os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:5173,http://127.0.0.1:5173').split(',') if h.strip()]
 
-# Add user's Vercel URL to trusted origins if not already there
-VERCEL_URL = "http://chemical-equipment-parameter-visual-amber.vercel.app"
-if VERCEL_URL not in CORS_ALLOWED_ORIGINS:
-    CORS_ALLOWED_ORIGINS.append(VERCEL_URL)
+# Add user's Vercel URL (both schemes for safety)
+VERCEL_DOMAINS = ["chemical-equipment-parameter-visual-amber.vercel.app"]
+for domain in VERCEL_DOMAINS:
+    for proto in ["http://", "https://"]:
+        url = proto + domain
+        if url not in CORS_ALLOWED_ORIGINS:
+            CORS_ALLOWED_ORIGINS.append(url)
 
-CSRF_TRUSTED_ORIGINS = [VERCEL_URL] if not DEBUG else []
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS if not DEBUG else []
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
